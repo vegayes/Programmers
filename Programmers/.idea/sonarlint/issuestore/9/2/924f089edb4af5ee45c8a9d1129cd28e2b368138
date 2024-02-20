@@ -1,0 +1,16 @@
+
+t	java:S127"XRefactor the code in order to not assign to this loop counter from within the loop body.(§¸Ç8Ò—âÛ1
+L	java:S106"+Replace this use of System.out by a logger.(š—°øÿÿÿÿ8é—âÛ1
+W
+java:S1854":Remove this useless assignment to local variable "mylist".(õ§ª8ë—âÛ1
+S
+java:S1854"6Remove this useless assignment to local variable "ab".(±íû—8ë—âÛ1
+R
+java:S1854!"5Remove this useless assignment to local variable "a".(á‰àÖ8ë—âÛ1
+H
+java:S1481"+Remove this unused "mylist" local variable.(õ§ª8í—âÛ1
+D
+java:S1481"'Remove this unused "ab" local variable.(±íû—8ï—âÛ1
+E	java:S108")Either remove or fill this block of code.(§¸Ç8ğ—âÛ1
+C
+java:S1481!"&Remove this unused "a" local variable.(á‰àÖ8ñ—âÛ1
