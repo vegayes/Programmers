@@ -5,13 +5,67 @@ import java.util.*;
 class Main {
     public static void main(String[] args) {
         Solution sol = new Solution();
-        int b = sol.solution(987);
-        System.out.println(b);
+        int[] result = sol.solution(4);
+        System.out.println(result);
     }
 
 }
 
+/*
+
+1) n개
+n
+list [1] + [2] + [3] + [4]
+
+2) 맨 마지막은 4개 순서대로
+3) i +
+
+ */
+
 class Solution {
+    public int[] solution(int n) {
+        int[] answer = {};
+
+        ArrayList<ArrayList<Integer>> listBox = new ArrayList<>(n);
+
+        // 1) 리스트 만들어서
+        for(int i = 0; i<n; i++){
+            listBox.add(new ArrayList<>(i+1));
+        }
+
+
+        // 2) n개의 리스트 돌림
+        for(int a = 0; a<listBox.size(); a++){
+
+            // 2-1) 첫 번째 인덱스에 값 넣기
+            listBox.get(a).add(a+1);
+
+            // 2-2) 마지막 줄 
+            if(a == listBox.size()-1){
+                // 2-3) 마지막 줄 오른쪽 증가
+                for(int lastLine = 1; lastLine <= listBox.get(a).size(); lastLine++){
+                    listBox.get(a).add(a+1+lastLine);
+                }
+            }
+
+            System.out.println(listBox);
+
+
+        }
+
+
+        return answer;
+    }
+}
+
+
+
+
+
+
+
+
+class SolutionSplitString {
     public int solution(int n) {
         int answer = 0;
 
