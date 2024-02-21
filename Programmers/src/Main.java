@@ -5,11 +5,50 @@ import java.util.*;
 class Main {
     public static void main(String[] args) {
         Solution sol = new Solution();
-        boolean b = sol.solution(10);
+        int b = sol.solution(987);
         System.out.println(b);
     }
+
 }
+
 class Solution {
+    public int solution(int n) {
+        int answer = 0;
+
+        String[] splitStr = Integer.toString(n).split("");
+
+        for(int i = 0; i < splitStr.length; i++){
+            answer += Integer.parseInt(splitStr[i]);
+        }
+
+
+
+        return answer;
+    }
+}
+
+class Solutionlong {
+    public long[] solution(int x, int n) {
+
+        ArrayList<Long> arrList = new ArrayList<Long>();
+
+        for (int i = 0; i < n; i++) {
+            arrList.add((long) x * i + x);
+        }
+
+        long[] answer = arrList.stream().mapToLong(i -> i).toArray();
+
+        return answer;
+    }
+}
+
+
+
+
+
+
+/*2023-02-20*/
+class SolutionSum {
     public boolean solution(int x) {
         boolean answer = false;
 
