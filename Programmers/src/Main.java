@@ -5,7 +5,7 @@ import java.util.*;
 class Main {
     public static void main(String[] args) {
         Solution sol = new Solution();
-        int[] result = sol.solution(4);
+        int[] result = sol.solution(8);
         System.out.println(result);
     }
 
@@ -28,30 +28,51 @@ class Solution {
 
         ArrayList<ArrayList<Integer>> listBox = new ArrayList<>(n);
 
+        // +) 마지막 수
+        int total = (n+1) * n / 2;
+
         // 1) 리스트 만들어서
         for(int i = 0; i<n; i++){
             listBox.add(new ArrayList<>(i+1));
         }
 
+        int index_h = 0;
+        int mode = 0;
+        int max_count = n;
+        int lastLine = n-1;
+        // 2) total만큼 리스트 돌림
+        for(int a = 1, count = 0; a <= total; a++, count++){
 
-        // 2) n개의 리스트 돌림
-        for(int a = 0; a<listBox.size(); a++){
+           if(mode % 3 == 0) {
+                listBox.get(index_h).add(mode/3,a);
+                index_h++;
 
-            // 2-1) 첫 번째 인덱스에 값 넣기
-            listBox.get(a).add(a+1);
-
-            // 2-2) 마지막 줄 
-            if(a == listBox.size()-1){
-                // 2-3) 마지막 줄 오른쪽 증가
-                for(int lastLine = 1; lastLine <= listBox.get(a).size(); lastLine++){
-                    listBox.get(a).add(a+1+lastLine);
-                }
             }
 
-            System.out.println(listBox);
+            if(mode % 3 == 1) {
+                int backCount = listBox.get(lastLine-(mode/3)).size();
+                listBox.get(lastLine-(mode/3)).add(backCount-mode/3,a);
+            }
 
+            if(mode % 3 == 2){
+                int backCount2 = listBox.get(index_h-2).size();
+                listBox.get(index_h-2).add(backCount2-mode/3,a);
+                index_h--;
+            }
 
+            if(count == max_count-1) {
+                mode++;
+                count = -1;
+                max_count--;
+            }
         }
+
+        ArrayList<Integer> arrayList = new ArrayList<>();
+        for(ArrayList<Integer> list1 : listBox) {
+            arrayList.addAll(list1);
+        }
+
+        answer = arrayList.stream().mapToInt(Integer::intValue).toArray();
 
 
         return answer;
