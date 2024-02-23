@@ -59,9 +59,7 @@ class Main {
                     if((count == valueArray.length-1) && (valueArray.length%2 == 1)){
                         int lastTime = (60*23) + 59;
                         int lastUseTime = lastTime-valueArray[count];
-                        System.out.println("마지막 들어오기전 :" + cumulativeTime);
                         cumulativeTime += lastUseTime;
-                        System.out.println("마지막 :" + cumulativeTime);
                     }
 
                     // 2-4) 인덱스 기준 홀수
@@ -69,8 +67,6 @@ class Main {
                         cumulativeTime += (valueArray[count] - valueArray[count-1]);
                     }
                 }
-
-                System.out.println("누적시간:" + cumulativeTime);
 
                 // 3) 주차요금
                 double calTime = (double) (cumulativeTime - defaultTime) /unitTime;
