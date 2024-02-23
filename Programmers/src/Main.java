@@ -5,11 +5,111 @@ import java.util.*;
 class Main {
     public static void main(String[] args) {
         Solution sol = new Solution();
-        int[] result = sol.solution(new int[]{180, 5000, 10, 600}, new String[]{"05:34 5961 IN", "06:34 5961 OUT", "07:34 5961 IN", "08:34 5961 OUT", "09:34 5961 IN", "10:34 5961 OUT", "11:34 5961 IN", "12:34 5961 OUT"});
-        System.out.println(Arrays.toString(result));
+        String result = sol.solution(new String[]{"TR", "RT", "TR"}, new int[]{7, 1, 3});
+        System.out.println(result);
     }
 }
-    class Solution {
+
+class Solution {
+    // 성격유형 검사
+    // - 매우동의 , 매우 비동의 : 3
+    // - 동의, 비동의 : 2
+    // - 약간 동의, 약간 비동의 : 1
+    // - 모르겠음 : 0
+    // 각 유형에서 더 높은 점수를 받은 것을 따름.
+    // 동일한 점수인 경우 지표의 사전 순으로
+
+    // 1) "RT"의 경우  R : 비동의 / T : 동의
+
+    // 2) survey == choices
+    public String solution(String[] survey, int[] choices) {
+        String answer = "";
+
+        String[] personal = new String[]{"R","T", "C", "F", "J", "M", "A", "N"};
+
+        Map<String,Integer> personalityScore = new HashMap<>();
+
+        // +) 유형의 key 만들기
+        for(int a = 0; a < personal.length; a++){
+            personalityScore.put(personal[a], 0);
+        }
+
+        // 1) survey 접근하기
+        for(int i = 0; i < survey.length; i++){
+
+           // 1-1) 해당 값
+
+            // 1-2) 값 나누기
+            String[] surveySplit = survey[i].split("");
+
+            String front = surveySplit[0];
+            String back = surveySplit[1];
+
+            // 1-3) 점수
+            int choice = choices[i];
+
+            // => 1 ~ 3 은 앞 캐릭터
+            // => 4 통과
+            // => 5 ~ 7 은 뒷 캐릭터
+            switch (choice){
+                case 1:
+                    personalityScore.put(front, personalityScore.get(front)+3);
+                    break;
+                case 2:
+                    personalityScore.put(front, personalityScore.get(front)+2);
+                    break;
+                case 3:
+                    personalityScore.put(front, personalityScore.get(front)+1);
+                    break;
+                case 5:
+                    personalityScore.put(back, personalityScore.get(back)+1);
+                    break;
+                case 6:
+                    personalityScore.put(back, personalityScore.get(back)+2);
+                    break;
+                case 7:
+                    personalityScore.put(back, personalityScore.get(back)+3);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        String[] setting = new String[]{"RT", "CF", "JM", "AN"};
+
+        for(int count = 0; count<setting.length; count++){
+
+            String[] split = setting[count].split("");
+
+            String split1 = split[0];
+            String split2 = split[1];
+
+            if(personalityScore.get(split1) >= personalityScore.get(split2)){
+                answer += split1;
+            }else{
+                answer += split2;
+            }
+        }
+
+        System.out.println(personalityScore);
+
+
+        return answer;
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+    class SolutionParking {
         public int[] solution(int[] fees, String[] records) {
 
             //기본 설정
