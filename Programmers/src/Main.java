@@ -1,28 +1,97 @@
+
 import java.lang.reflect.Array;
 import java.util.*;
-
 
 class Main {
     public static void main(String[] args) {
         Solution sol = new Solution();
-        int[] result = sol.solution(8);
-        System.out.println(result);
+        int[] result = sol.solution(new int[]{180, 5000, 10, 600}, new String[]{"05:34 5961 IN", "06:34 5961 OUT", "07:34 5961 IN", "08:34 5961 OUT", "09:34 5961 IN", "10:34 5961 OUT", "11:34 5961 IN", "12:34 5961 OUT"});
+        System.out.println(Arrays.toString(result));
+    }
+}
+    class Solution {
+        public int[] solution(int[] fees, String[] records) {
+
+            //기본 설정
+            int defaultTime = fees[0];
+            int defaultPay = fees[1];
+            int unitTime = fees[2];
+            int unitPay = fees[3];
+
+            // map으로 생성
+            Map<String,ArrayList<Integer>> carTimeMap = new HashMap<>();
+
+            // 1) records를 split함.
+            for(int i = 0; i < records.length; i++){
+                // 1-1) split하기   splitRecord[05:34, 5961, IN]
+                String[] splitRecord = records[i].split(" ");
+                String[] time = splitRecord[0].split(":");
+
+                // 시간-> 분으로 표시
+                int minute = (Integer.parseInt(time[0]) * 60) + (Integer.parseInt(time[1])) ;
+
+                // 1-2)key가 없는 경우 -> ArrayList 만들기
+                if(!carTimeMap.containsKey(splitRecord[1])){
+                    carTimeMap.put(splitRecord[1], new ArrayList<>(Arrays.asList(minute)));
+                }else{
+                    // 1-3) key가 있는 경우 -> 해당 key에 value 추가하기
+                    carTimeMap.get(splitRecord[1]).add(minute);
+                }
+
+            }
+            System.out.println(carTimeMap);
+
+            // 2) key 저장 ( 오름차순 )
+            String[] keyArray = carTimeMap.keySet().toArray(new String[0]);
+            Arrays.sort(keyArray);
+
+            int[] answer = new int[keyArray.length];
+            // 2-1) key값에 따라 돎
+            for(int index =0; index < keyArray.length; index++ ){
+
+                Integer[] valueArray = carTimeMap.get(keyArray[index]).toArray(new Integer[0]);
+
+                int cumulativeTime =0;
+
+                // 2-2) key에 해당하는 value 접근 ( 2개가 짝 )
+                for(int count = 0 ; count < valueArray.length; count++){
+                    // 2-3) 마지막 값이면서, 홀수인 경우뒤에 값이 없는 경우 23:59분 추가
+                    if((count == valueArray.length-1) && (valueArray.length%2 == 1)){
+                        int lastTime = (60*23) + 59;
+                        int lastUseTime = lastTime-valueArray[count];
+                        System.out.println("마지막 들어오기전 :" + cumulativeTime);
+                        cumulativeTime += lastUseTime;
+                        System.out.println("마지막 :" + cumulativeTime);
+                    }
+
+                    // 2-4) 인덱스 기준 홀수
+                    if(count%2 == 1){
+                        cumulativeTime += (valueArray[count] - valueArray[count-1]);
+                    }
+                }
+
+                System.out.println("누적시간:" + cumulativeTime);
+
+                // 3) 주차요금
+                double calTime = (double) (cumulativeTime - defaultTime) /unitTime;
+                int overTime = (int) Math.ceil(calTime);
+                if(cumulativeTime-defaultTime >=0){
+                    answer[index] = defaultPay + overTime * unitPay;
+                }else{
+                    answer[index] =defaultPay;
+                }
+
+            }
+
+            return answer;
+        }
     }
 
-}
 
-/*
 
-1) n개
-n
-list [1] + [2] + [3] + [4]
 
-2) 맨 마지막은 4개 순서대로
-3) i +
 
- */
-
-class Solution {
+class Solution_triangle_snail{
     public int[] solution(int n) {
         int[] answer = {};
 
