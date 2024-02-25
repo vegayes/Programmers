@@ -15,10 +15,6 @@ class Solution {
     public int solution(int x, int y, int n) {
         int answer = 0;
 
-<<<<<<< HEAD
-=======
-        
->>>>>>> 5a8632976d91f0c4101f620588cc2db379a4848c
         int[] countArray = new int[3];
 
         for(int i = 0; i < countArray.length; i++){
