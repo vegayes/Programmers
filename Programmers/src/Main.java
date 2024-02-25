@@ -15,6 +15,7 @@ class Solution {
     public int solution(int x, int y, int n) {
         int answer = 0;
 
+        
         int[] countArray = new int[3];
 
         for(int i = 0; i < countArray.length; i++){
