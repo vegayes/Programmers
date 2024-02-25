@@ -5,12 +5,48 @@ import java.util.*;
 class Main {
     public static void main(String[] args) {
         Solution sol = new Solution();
-        String result = sol.solution(new String[]{"TR", "RT", "TR"}, new int[]{7, 1, 3});
+        int result = sol.solution(10,40,5);
         System.out.println(result);
     }
 }
 
 class Solution {
+    public int solution(int x, int y, int n) {
+        int answer = 0;
+
+        int[] countArray = new int[3];
+
+        for(int i = 0; i < countArray.length; i++){
+            int count = 0; // 진행 값
+            int num = 0; // 누적
+            while(num < 10){
+                System.out.println("들어옴");
+                if(i == 0){
+                    // n을 더함
+                    if(num == 0){
+                        // 처음
+                        num = x + n;
+                        break;
+                    }else{
+                        num += n;
+                    }
+                    count++;
+                }
+
+                System.out.println("num:" + num);
+
+            }
+
+            countArray[i] = count;
+        }
+
+
+
+        return answer;
+    }
+}
+
+class SolutionPersonal {
     // 성격유형 검사
     // - 매우동의 , 매우 비동의 : 3
     // - 동의, 비동의 : 2
