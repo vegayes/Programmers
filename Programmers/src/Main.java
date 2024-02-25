@@ -8,6 +8,7 @@ class Main {
         int result = sol.solution(10,40,5);
         System.out.println(result);
     }
+
 }
 
 class Solution {
