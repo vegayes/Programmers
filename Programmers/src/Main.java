@@ -5,13 +5,36 @@ import java.util.*;
 class Main {
     public static void main(String[] args) {
         Solution sol = new Solution();
-        int result = sol.solution(10,40,5);
+        int result = sol.solution(new String[]{"banana", "apple", "rice", "pork", "pot"},new int[]{3, 2, 2, 2, 1},new String[]{"chicken", "apple", "apple", "banana", "rice", "apple", "pork", "banana", "pork", "rice", "pot", "banana", "apple", "banana"});
         System.out.println(result);
     }
 
 }
 
 class Solution {
+    /*
+    // 할인행사
+    일정 금액 지불 --> 10일 회원
+
+    하루에 한 가지 제품 할인 (회원 대상) : 하루 1개 구매
+
+    원하는 상품을 10일동안 모두 구할 수 있는 경우의 날짜 구하기
+     */
+    public int solution(String[] want, int[] number, String[] discount) {
+        int answer = 0;
+
+
+
+        return answer;
+    }
+}
+
+
+
+
+
+
+class Solution_nujuck_xxxxxxxxxx {
     public int solution(int x, int y, int n) {
         int answer = 0;
 
