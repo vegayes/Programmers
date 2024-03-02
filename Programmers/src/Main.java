@@ -1,34 +1,78 @@
 
 import java.lang.reflect.Array;
 import java.util.*;
+import java.util.stream.IntStream;
 
 class Main {
     public static void main(String[] args) {
         Solution sol = new Solution();
-        int[] result = sol.solution(10,2);
+        int result = sol.solution(new int[]{1, 2, 3, 9, 10, 12},7);
         System.out.println(result);
     }
 
 }
 
+/*
 class Solution {
-    public int[] solution(int brown, int yellow) {
-        int[] answer = {};
+    public int solution(int[] scoville, int K) {
+        int answer = 0;
 
-        // - 가로길이 >= 세로 길이
+        // 1) 리스트의 값을 정렬함. 오름차순으로
+        Arrays.sort(scoville);
 
-        // brown은 테두리에만 있으므로 모서리의 값 빼면
-        // 10-4 = 6
-        // 6을 4로 나눔 = 1..2  -> 세로
-        // 2를 2로 나눔 = 1 -> 가로 추가
-        // 2 + 모서리 2  = 4
-        // 2 + ( 2/2 ) = 3
+        while(!checkAllValue(scoville, K)){
+            int newFoodScoville = scoville[0] + (scoville[1] * 2) ;
+            scoville[0] = newFoodScoville;
 
-        // 24-4 = 20
-        // 20 /4 = 5
-        // 가로 5 + 2
-        // 세로 5 + 1
+            int[] newArray = IntStream.range(0, scoville.length)
+                    .filter(idx -> idx != 1)
+                    .map(idx -> scoville[idx])
+                    .toArray();
 
+            // 새로운 배열을 기존 배열에 복사
+            System.arraycopy(newArray, 0, scoville, 0, newArray.length);
+
+            Arrays.sort(scoville);
+            answer++;
+        }
+        return answer;
+    }
+
+    private static boolean checkAllValue(int[] array, int k) {
+        int index = 0;
+
+        // 배열의 모든 값이 k 이상인지 확인
+        while (index < array.length) {
+            if (array[index] < k) {
+                return false;
+            }
+            index++;
+        }
+        return true;
+    }
+}
+
+ */
+
+class Solution {
+    public int solution(int[] scoville, int K) {
+        int answer = 0;
+
+        // 최소 힙 구현
+        PriorityQueue<Integer> heap = new PriorityQueue<>();
+        for (int s : scoville) {
+            heap.offer(s);
+        }
+
+        while (heap.peek() < K) {
+            if (heap.size() < 2) {
+                return -1;
+            }
+
+            int newFoodScoville = heap.poll() + (heap.poll() * 2);
+            heap.offer(newFoodScoville);
+            answer++;
+        }
 
         return answer;
     }
