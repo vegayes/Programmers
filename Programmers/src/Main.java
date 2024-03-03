@@ -6,72 +6,55 @@ import java.util.stream.IntStream;
 class Main {
     public static void main(String[] args) {
         Solution sol = new Solution();
-        int result = sol.solution(new int[]{1, 2, 3, 9, 10, 12},7);
-        System.out.println(result);
+        int[] result = sol.solution(new String[]{"I -45", "I 653", "D 1", "I -642", "I 45", "I 97", "D 1", "D -1", "I 333"});
+        System.out.println(Arrays.toString(result));
     }
 
 }
 
-/*
 class Solution {
-    public int solution(int[] scoville, int K) {
-        int answer = 0;
+    public int[] solution(String[] operations) {
+        int[] answer = {0,0};
 
-        // 1) 리스트의 값을 정렬함. 오름차순으로
-        Arrays.sort(scoville);
+        /*
+         * | 숫자 : 큐에 주어진 숫자 삽입
+         *
+         * D 1 : 큐에서 최댓값을 삭제
+         *
+         * D -1 : 큐에서 최솟값을 삭제
+         *
+         * 큐가 비어있음 = [0,0]
+         *             => [최댓값 , 최솟값]
+         */
 
-        while(!checkAllValue(scoville, K)){
-            int newFoodScoville = scoville[0] + (scoville[1] * 2) ;
-            scoville[0] = newFoodScoville;
+        PriorityQueue<Integer> minHeap = new PriorityQueue<>(); // 최소 힙
+        PriorityQueue<Integer> maxHeap = new PriorityQueue<>((a, b) -> b - a); // 최대 힙
 
-            int[] newArray = IntStream.range(0, scoville.length)
-                    .filter(idx -> idx != 1)
-                    .map(idx -> scoville[idx])
-                    .toArray();
+        for (String operation : operations) {
+            String[] option = operation.split(" ");
 
-            // 새로운 배열을 기존 배열에 복사
-            System.arraycopy(newArray, 0, scoville, 0, newArray.length);
-
-            Arrays.sort(scoville);
-            answer++;
-        }
-        return answer;
-    }
-
-    private static boolean checkAllValue(int[] array, int k) {
-        int index = 0;
-
-        // 배열의 모든 값이 k 이상인지 확인
-        while (index < array.length) {
-            if (array[index] < k) {
-                return false;
+            if (option[0].equals("I")) {
+                int num = Integer.parseInt(option[1]);
+                minHeap.offer(num);
+                maxHeap.offer(num);
+            } else if (option[0].equals("D")) {
+                if (!minHeap.isEmpty()) {
+                    if (option[1].equals("1")) {
+                        // 최대값 삭제
+                        int maxElement = maxHeap.poll();
+                        minHeap.remove(maxElement);
+                    } else if (option[1].equals("-1")) {
+                        // 최솟값 삭제
+                        int minElement = minHeap.poll();
+                        maxHeap.remove(minElement);
+                    }
+                }
             }
-            index++;
-        }
-        return true;
-    }
-}
-
- */
-
-class Solution {
-    public int solution(int[] scoville, int K) {
-        int answer = 0;
-
-        // 최소 힙 구현
-        PriorityQueue<Integer> heap = new PriorityQueue<>();
-        for (int s : scoville) {
-            heap.offer(s);
         }
 
-        while (heap.peek() < K) {
-            if (heap.size() < 2) {
-                return -1;
-            }
-
-            int newFoodScoville = heap.poll() + (heap.poll() * 2);
-            heap.offer(newFoodScoville);
-            answer++;
+        if (!minHeap.isEmpty()) {
+            answer[0] = maxHeap.peek();
+            answer[1] = minHeap.peek();
         }
 
         return answer;
